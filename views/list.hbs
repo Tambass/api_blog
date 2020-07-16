@@ -14,11 +14,13 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                    {{#each recipe}}
+                        <td>Date</td>
+                        <td>{{this.title}}</td>
+                        <td>{{this.category.title}}</td>
                         <td><button type="button" class="btn btn-primary"><a href="put">Modifier</a></button></td>
                         <td><button type="button" class="btn btn-danger"><a href="delete">Supprimer</a></button></td>
+                    {{/each}}
                     </tr>
                     <tr>
                         <td></td>

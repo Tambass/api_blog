@@ -12,17 +12,20 @@
     </div>
 
     <div class="row">
-        <div class="col-md-3"><h2>coucou</h2></div>
-        <div class="col-md-3"><h2>coucou</h2></div>
-        <div class="col-md-3"><h2>coucou</h2></div>
-        <div class="col-md-3"><h2>coucou</h2></div>
-    </div>
-    
-    <div class="row">
-        <div class="col-md-3"><h2>coucou</h2></div>
-        <div class="col-md-3"><h2>coucou</h2></div>
-        <div class="col-md-3"><h2>coucou</h2></div>
-        <div class="col-md-3"><h2>coucou</h2></div>
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        {{#each recipe}}
+                        <li class="list-group-item">{{this.title}}</li>
+                        <li class="list-group-item">{{this.ingredients}}</li>
+                        <li class="list-group-item">{{this.content}}</li>
+                        {{/each}}
+                    </ul>
+                </div>
+            </div>
+            <h2></h2>
+        </div>
     </div>
 
 </div>

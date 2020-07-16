@@ -36,6 +36,7 @@ app.set("view engine", "hbs");
 app.use(
   bodyParser.urlencoded({
     extended: true,
+    useUnifiedTopology: true,
   })
 );
 
@@ -56,91 +57,110 @@ const Recipe = mongoose.model("recipe", recipeSchema);
 // ROUTES
 
 // Index.hbs
-app.get("/", (req, res) => {
-  res.render("index");
+app.route("/").get((req, res) => {
+  Recipe.find(function (err, recipe) {
+    if (!err) {
+      res.render("index", {
+        recipe: recipe,
+      });
+    } else {
+      res.send(err);
+    }
+  });
 });
 
 // STARTERS
-app.get("/starters", (req, res) => {
+app.route("/starters").get((req, res) => {
   res.render("starters");
 });
 
 // salads
-app.get("/salads", (req, res) => {
+app.route("/salads").get((req, res) => {
   res.render("salads");
 });
 
 // hot_starters
-app.get("/hot_starters", (req, res) => {
+app.route("/hot_starters").get((req, res) => {
   res.render("hot_starters");
 });
 
 // cold_starters
-app.get("/cold_starters", (req, res) => {
+app.route("/cold_starters").get((req, res) => {
   res.render("cold_starters");
 });
 
 // MAIN_COURSE
-app.get("/main_course", (req, res) => {
+app.route("/main_course").get((req, res) => {
   res.render("main_course");
 });
 
 // meat
-app.get("/meat", (req, res) => {
+app.route("/meat").get((req, res) => {
   res.render("meat");
 });
 
 // fish
-app.get("/fish", (req, res) => {
+app.route("/fish").get((req, res) => {
   res.render("fish");
 });
 
 // soup
-app.get("/soup", (req, res) => {
+app.route("/soup").get((req, res) => {
   res.render("soup");
 });
 
 // DESSERTS
-app.get("/desserts", (req, res) => {
+app.route("/desserts").get((req, res) => {
   res.render("desserts");
 });
 
 // entremets
-app.get("/entremets", (req, res) => {
+app.route("/entremets").get((req, res) => {
   res.render("entremets");
 });
 
 // pies
-app.get("/pies", (req, res) => {
+app.route("/pies").get((req, res) => {
   res.render("pies");
 });
 
 // ice_cream
-app.get("/ice_cream", (req, res) => {
+app.route("/ice_cream").get((req, res) => {
   res.render("ice_cream");
 });
 
 // ADMIN
 
 // List.hbs
-app.get("/list", (req, res) => {
+app.route("/list").get((req, res) => {
+  Recipe.find(function (err, recipe) {
+    if (!err) {
+      res.render("index", {
+        recipe: recipe,
+      });
+    } else {
+      res.send(err);
+    }
+  });
   res.render("list");
 });
 
 // Post.hbs
-app.get("/post", (req, res) => {
+app.route("/post").get((req, res) => {
   res.render("post");
 });
 
 // Put.hbs
-app.get("/put", (req, res) => {
+app.route("/put").get((req, res) => {
   res.render("put");
 });
 
 // Post.hbs
-app.get("/delete", (req, res) => {
+app.route("/delete").get((req, res) => {
   res.render("delete");
 });
+
+// SERVER
 
 app.listen(port, function () {
   console.log(
