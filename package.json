@@ -1,7 +1,7 @@
 {
-  "name": "rest-app",
+  "name": "api_blog",
   "version": "1.0.0",
-  "description": "",
+  "description": "https://tambass.github.io/api_blog/",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -13,5 +13,14 @@
     "express": "^4.17.1",
     "express-handlebars": "^5.0.0",
     "mongoose": "^5.9.22"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tambass/api_blog.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Tambass/api_blog/issues"
+  },
+  "homepage": "https://github.com/Tambass/api_blog#readme"
 }
