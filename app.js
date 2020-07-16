@@ -39,9 +39,40 @@ app.use(
   })
 );
 
-// Route
+// MongoDB
+
+mongoose.connect("mongodb://localhost:27017/api_blog", {
+  useNewUrlParser: true,
+});
+
+const recipeSchema = {
+  title: String,
+  ingredients: String,
+  content: String,
+};
+
+const Recipe = mongoose.model("recipe", recipeSchema);
+
+// ROUTES
+
+// Index.hbs
 app.get("/", (req, res) => {
   res.render("index");
+});
+
+// Post.hbs
+app.get("/post", (req, res) => {
+  res.render("post");
+});
+
+// Put.hbs
+app.get("/put", (req, res) => {
+  res.render("put");
+});
+
+// Post.hbs
+app.get("/delete", (req, res) => {
+  res.render("delete");
 });
 
 app.listen(port, function () {
