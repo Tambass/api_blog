@@ -4,7 +4,25 @@
             <h1>Ajouter une recette</h1>
             <div class="card">
                 <div class="card-body">
-                    
+                    <form method="POST" action="/" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label>Titre</label>
+                            <input type="text" class="form-control" name="title">
+                        </div>
+                        <div class="form-group">
+                            <label>Ingrédients</label>
+                            <textarea class="form-control" name="ingredients"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Recette</label>
+                            <textarea class="form-control" name="content"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Image</label>
+                            <input type="file" name="cover">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
                 </div>
             </div>
         </div>

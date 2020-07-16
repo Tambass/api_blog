@@ -120,6 +120,13 @@ app.get("/ice_cream", (req, res) => {
   res.render("ice_cream");
 });
 
+// ADMIN
+
+// List.hbs
+app.get("/list", (req, res) => {
+  res.render("list");
+});
+
 // Post.hbs
 app.get("/post", (req, res) => {
   res.render("post");
