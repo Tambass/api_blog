@@ -13,6 +13,7 @@ const sharp = require("sharp");
 // Express
 const port = 8080;
 const app = express();
+app.use(express.static("public"));
 
 //Method Override
 app.use(methodOverride("_method"));
@@ -37,6 +38,11 @@ app.use(
     extended: true,
   })
 );
+
+// Route
+app.get("/", (req, res) => {
+  res.render("index");
+});
 
 app.listen(port, function () {
   console.log(
