@@ -2,7 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const exphbs = require("express-handlebars");
-const Handlebars = require("handlebars");
+const handlebars = require("handlebars");
 const {
   allowInsecurePrototypeAccess,
 } = require("@handlebars/allow-prototype-access");
@@ -25,7 +25,7 @@ app.engine(
   exphbs({
     defaultLayout: "main",
     extname: "hbs",
-    handlebars: allowInsecurePrototypeAccess(Handlebars),
+    handlebars: allowInsecurePrototypeAccess(handlebars),
   })
 );
 
@@ -50,6 +50,7 @@ const recipeSchema = {
   title: String,
   ingredients: String,
   content: String,
+  category: String,
 };
 
 const Recipe = mongoose.model("recipe", recipeSchema);
@@ -135,14 +136,13 @@ app.route("/ice_cream").get((req, res) => {
 app.route("/list").get((req, res) => {
   Recipe.find(function (err, recipe) {
     if (!err) {
-      res.render("index", {
+      res.render("list", {
         recipe: recipe,
       });
     } else {
       res.send(err);
     }
   });
-  res.render("list");
 });
 
 // Post.hbs
