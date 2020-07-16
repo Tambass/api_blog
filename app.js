@@ -60,6 +60,66 @@ app.get("/", (req, res) => {
   res.render("index");
 });
 
+// STARTERS
+app.get("/starters", (req, res) => {
+  res.render("starters");
+});
+
+// salads
+app.get("/salads", (req, res) => {
+  res.render("salads");
+});
+
+// hot_starters
+app.get("/hot_starters", (req, res) => {
+  res.render("hot_starters");
+});
+
+// cold_starters
+app.get("/cold_starters", (req, res) => {
+  res.render("cold_starters");
+});
+
+// MAIN_COURSE
+app.get("/main_course", (req, res) => {
+  res.render("main_course");
+});
+
+// meat
+app.get("/meat", (req, res) => {
+  res.render("meat");
+});
+
+// fish
+app.get("/fish", (req, res) => {
+  res.render("fish");
+});
+
+// soup
+app.get("/soup", (req, res) => {
+  res.render("soup");
+});
+
+// DESSERTS
+app.get("/desserts", (req, res) => {
+  res.render("desserts");
+});
+
+// entremets
+app.get("/entremets", (req, res) => {
+  res.render("entremets");
+});
+
+// pies
+app.get("/pies", (req, res) => {
+  res.render("pies");
+});
+
+// ice_cream
+app.get("/ice_cream", (req, res) => {
+  res.render("ice_cream");
+});
+
 // Post.hbs
 app.get("/post", (req, res) => {
   res.render("post");
