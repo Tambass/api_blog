@@ -85,7 +85,7 @@ mongoose.connect("mongodb://localhost:27017/api_blog", {
   useNewUrlParser: true,
 });
 
-const recipeSchema = {
+const recipeSchema = new mongoose.Schema({
   title: String,
   ingredients: String,
   content: String,
@@ -103,11 +103,35 @@ const recipeSchema = {
     urlSharp: String,
     createAt: Date,
   },
-};
+});
+
+const categoryShema = new mongoose.Schema({
+  title: String,
+});
 
 const Recipe = mongoose.model("recipe", recipeSchema);
+const Category = mongoose.model("category", categoryShema);
 
 // ROUTES
+
+// Category.hbs
+app
+  .route("/category")
+  .get((req, res) => {
+    res.render("category");
+  })
+  .post((req, res) => {
+    const newCategory = new Category({
+      title: req.body.title,
+    });
+    newCategory.save(function (err) {
+      if (!err) {
+        res.send("Nouvelle catégorie sauvegardée !");
+      } else {
+        res.send(err);
+      }
+    });
+  });
 
 // Index.hbs
 app.route("/").get((req, res) => {
