@@ -207,9 +207,20 @@ app.route("/put").get((req, res) => {
 });
 
 // Delete.hbs
-app.route("/delete").get((req, res) => {
-  res.render("delete");
-});
+app
+  .route("/delete")
+  .get((req, res) => {
+    res.render("delete");
+  })
+  .delete(function (req, res) {
+    Recipe.deleteMany(function (err) {
+      if (!err) {
+        res.send("Toutes les recettes ont été effacées !");
+      } else {
+        res.send(err);
+      }
+    });
+  });
 
 // ROUTE edition
 
@@ -251,6 +262,15 @@ app
         }
       }
     );
+  })
+  .delete(function (req, res) {
+    Recipe.deleteOne({ _id: req.params.id }, function (err) {
+      if (!err) {
+        res.send("Recette effacée avec succès !");
+      } else {
+        res.send(err);
+      }
+    });
   });
 
 // SERVER
