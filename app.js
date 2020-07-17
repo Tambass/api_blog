@@ -29,7 +29,25 @@ const storage = multer.diskStorage({
   },
 });
 
-const upload = multer({ storage: storage });
+const upload = multer({
+  storage: storage,
+  limits: {
+    fileSize: 4 * 4083 * 4083,
+    files: 1,
+  },
+  fileFilter: function (req, file, cb) {
+    if (
+      file.mimetype === "image/png" ||
+      file.mimetype === "image/jpg" ||
+      file.mimetype === "image/jpeg" ||
+      file.mimetype === "image/gif"
+    ) {
+      cb(null, true);
+    } else {
+      cb(new Error("Le fichier doit être au format png, jpg, jpeg ou gif"));
+    }
+  },
+});
 
 // Express
 const port = 8080;
@@ -82,6 +100,7 @@ const recipeSchema = {
     name: String,
     originalname: String,
     path: String,
+    urlSharp: String,
     createAt: Date,
   },
 };
@@ -187,6 +206,16 @@ app
   .post(upload.single("cover"), (req, res) => {
     const file = req.file;
 
+    sharp(file.path)
+      .resize({ width: 200 })
+      .webp({ quality: 80 })
+      .toFile(
+        "./public/uploads/web/" +
+          file.originalname.split(".").slice(0, -1).join(".") +
+          ".webp",
+        (err, info) => {}
+      );
+
     const newRecipe = new Recipe({
       title: req.body.title,
       ingredients: req.body.ingredients,
@@ -199,6 +228,10 @@ app
         name: file.filename,
         originalname: file.originalname,
         path: file.path.replace("public", ""),
+        urlSharp:
+          "/uploads/web/" +
+          file.originalname.split(".").slice(0, -1).join(".") +
+          ".webp",
         createAt: Date.now(),
       };
     }
@@ -226,20 +259,20 @@ app.route("/put").get((req, res) => {
 });
 
 // Delete.hbs
-// app
-//   .route("/delete")
-//   .get((req, res) => {
-//     res.render("delete");
-//   })
-//   .delete(function (req, res) {
-//     Recipe.deleteMany(function (err) {
-//       if (!err) {
-//         res.send("Toutes les recettes ont été effacées !");
-//       } else {
-//         res.send(err);
-//       }
-//     });
-//   });
+app
+  .route("/delete")
+  .get((req, res) => {
+    res.render("delete");
+  })
+  .delete(function (req, res) {
+    Recipe.deleteMany(function (err) {
+      if (!err) {
+        res.send("Toutes les recettes ont été effacées !");
+      } else {
+        res.send(err);
+      }
+    });
+  });
 
 // ROUTE edition
 
