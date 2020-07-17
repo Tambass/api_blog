@@ -12,16 +12,17 @@
     <div class="row">
         <div class="col-md-12">
             <div class="card">
+                {{#each recipe}}
                 <div class="card-body">
-                    {{#each recipe}}
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">{{this.title}}</li>
                         <li class="list-group-item">{{this.ingredients}}</li>
                         <li class="list-group-item">{{this.content}}</li>
                         <li class="list-group-item">{{this.category}}</li>
+                        <li class="list-group-item">{{this.created_at}}</li>
                     </ul>
-                    {{/each}}
                 </div>
+                {{/each}}
             </div>
             <h2></h2>
         </div>

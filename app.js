@@ -10,6 +10,10 @@ const methodOverride = require("method-override");
 const path = require("path");
 const sharp = require("sharp");
 
+// Moment
+const moment = require("moment");
+const date = moment("DD-MM-YYYY");
+
 // Express
 const port = 8080;
 const app = express();
@@ -56,7 +60,7 @@ const recipeSchema = {
     type: Date,
     required: true,
     default: Date.now,
-  }
+  },
 };
 
 const Recipe = mongoose.model("recipe", recipeSchema);
@@ -179,7 +183,6 @@ app
       title: req.body.title,
       ingredients: req.body.ingredients,
       content: req.body.content,
-      date: req.body.date,
     });
     newRecipe.save(function (err) {
       if (!err) {
