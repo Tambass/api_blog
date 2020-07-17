@@ -5,53 +5,38 @@
             <table class="table table-striped">
                 <thead class="thead-dark">
                     <tr>
-                    <th scope="col">Date</th>
-                    <th scope="col">Titre</th>
-                    <th scope="col">Catégorie</th>
-                    <th scope="col">Modifier</th>
-                    <th scope="col">Supprimer</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Titre</th>
+                        <th scope="col">Catégorie</th>
+                        <th scope="col">Modifier</th>
+                        <th scope="col">Supprimer</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
                     {{#each recipe}}
-                        <td>Date</td>
+                    <tr>
+                        <td>{{this.created_at}}</td>
                         <td>{{this.title}}</td>
                         <td>{{this.category.title}}</td>
                         <td><button type="button" class="btn btn-primary"><a href="put">Modifier</a></button></td>
                         <td><button type="button" class="btn btn-danger"><a href="delete">Supprimer</a></button></td>
+                    </tr>
                     {{/each}}
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td><button type="button" class="btn btn-primary"><a href="put">Modifier</a></button></td>
-                        <td><button type="button" class="btn btn-danger"><a href="delete">Supprimer</a></button></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td><button type="button" class="btn btn-primary"><a href="put">Modifier</a></button></td>
-                        <td><button type="button" class="btn btn-danger"><a href="delete">Supprimer</a></button></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td><button type="button" class="btn btn-primary"><a href="put">Modifier</a></button></td>
-                        <td><button type="button" class="btn btn-danger"><a href="delete">Supprimer</a></button></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td><button type="button" class="btn btn-primary"><a href="put">Modifier</a></button></td>
-                        <td><button type="button" class="btn btn-danger"><a href="delete">Supprimer</a></button></td>
-                    </tr>
                 </tbody>
             </table>
         </div>
     </div>
 </div>
+<!--
+<script>
+    const date = document.querySelectorAll('.date')
+
+    let now = new Date();
+    let day = now.getDate();
+    let month = now.getMonth() + 1;
+    let year = now.getFullYear();
+
+    date.innerHTML = day + "/" + month + "/" + year
+
+</script>
+-->

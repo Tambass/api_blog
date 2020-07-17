@@ -51,6 +51,12 @@ const recipeSchema = {
   ingredients: String,
   content: String,
   category: String,
+  date: Date,
+  created_at: {
+    type: Date,
+    required: true,
+    default: Date.now,
+  }
 };
 
 const Recipe = mongoose.model("recipe", recipeSchema);
@@ -133,22 +139,56 @@ app.route("/ice_cream").get((req, res) => {
 // ADMIN
 
 // List.hbs
-app.route("/list").get((req, res) => {
-  Recipe.find(function (err, recipe) {
-    if (!err) {
-      res.render("list", {
-        recipe: recipe,
-      });
-    } else {
-      res.send(err);
-    }
+app
+  .route("/list")
+  .get((req, res) => {
+    Recipe.find(function (err, recipe) {
+      if (!err) {
+        res.render("list", {
+          recipe: recipe,
+        });
+      } else {
+        res.send(err);
+      }
+    });
+  })
+  .post((req, res) => {
+    const newRecipe = new Recipe({
+      title: req.body.title,
+      ingredients: req.body.ingredients,
+      content: req.body.content,
+      date: req.body.date,
+    });
+    newRecipe.save(function (err) {
+      if (!err) {
+        res.send("Nouvelle recette ajoutée avec succès !");
+      } else {
+        res.send(err);
+      }
+    });
   });
-});
 
 // Post.hbs
-app.route("/post").get((req, res) => {
-  res.render("post");
-});
+app
+  .route("/post")
+  .get((req, res) => {
+    res.render("post");
+  })
+  .post((req, res) => {
+    const newRecipe = new Recipe({
+      title: req.body.title,
+      ingredients: req.body.ingredients,
+      content: req.body.content,
+      date: req.body.date,
+    });
+    newRecipe.save(function (err) {
+      if (!err) {
+        res.send("Nouvelle recette ajoutée avec succès !");
+      } else {
+        res.send(err);
+      }
+    });
+  });
 
 // Put.hbs
 app.route("/put").get((req, res) => {
