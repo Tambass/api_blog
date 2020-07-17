@@ -195,13 +195,41 @@ app
 
 // Put.hbs
 app.route("/put").get((req, res) => {
-  res.render("put");
+  Recipe.find(function (err, recipe) {
+    if (!err) {
+      res.render("put", {
+        recipe: recipe,
+      });
+    } else {
+      res.send(err);
+    }
+  });
 });
 
 // Post.hbs
 app.route("/delete").get((req, res) => {
   res.render("delete");
 });
+
+// ROUTE edition
+
+app
+  .route("/:id")
+  .get(function (req, res) {
+    Recipe.findOne({ _id: req.params.id }, function (err, recipe) {
+      if (!err) {
+        res.render("put", {
+          _id: recipe.id,
+          title: recipe.title,
+          ingredients: recipe.ingredients,
+          content: recipe.content,
+        });
+      } else {
+        res.send(err);
+      }
+    });
+  })
+  .put();
 
 // SERVER
 

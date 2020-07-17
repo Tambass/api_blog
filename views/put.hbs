@@ -4,18 +4,26 @@
             <h1>Modifier une recette</h1>
             <div class="card">
                 <div class="card-body">
-                    <form action="/{{_id}}?_method=PUT" method="POST">
+                    <form method="POST" action="/{{_id}}?_method=PUT">
                         <div class="form-group">
                             <label>Titre</label>
                             <input type="text" class="form-control" name="title" value="{{title}}">
                         </div>
                         <div class="form-group">
                             <label>Ingrédients</label>
-                            <textarea type="text" class="form-control" name="ingredients" value="{{ingredients}}"></textarea>
+                            <textarea class="form-control" name="ingredients">{{ingredients}}</textarea>
                         </div>
                         <div class="form-group">
                             <label>Recette</label>
-                            <textarea type="text" class="form-control" name="content" value="{{content}}"></textarea>
+                            <textarea class="form-control" name="content">{{content}}</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleFormControlSelect1">Catégorie</label>
+                            <select class="form-control" id="exampleFormControlSelect1" name="category">
+                                <option>Entrées</option>
+                                <option>Plats</option>
+                                <option>Desserts</option>
+                            </select>
                         </div>
                         <div class="form-group">
                             <label>Image</label>
