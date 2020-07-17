@@ -11,8 +11,8 @@ const path = require("path");
 const sharp = require("sharp");
 
 // Moment
-const moment = require("moment");
-const date = moment("DD-MM-YYYY");
+//const moment = require("moment");
+//const date = moment("DD-MM-YYYY");
 
 // Express
 const port = 8080;
