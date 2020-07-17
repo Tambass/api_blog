@@ -11,20 +11,20 @@
 
     <div class="row">
         <div class="col-md-12">
+            {{#each recipe}}
             <div class="card">
-                {{#each recipe}}
                 <div class="card-body">
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">{{this.title}}</li>
+                        <img src="{{this.cover.path}}" alt="" style="max-width: 200px;">
                         <li class="list-group-item">{{this.ingredients}}</li>
                         <li class="list-group-item">{{this.content}}</li>
                         <li class="list-group-item">{{this.category}}</li>
                         <li class="list-group-item">{{this.created_at}}</li>
                     </ul>
                 </div>
-                {{/each}}
             </div>
-            <h2></h2>
+            {{/each}}
         </div>
     </div>
 

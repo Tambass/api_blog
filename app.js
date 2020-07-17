@@ -14,6 +14,20 @@ const sharp = require("sharp");
 //const moment = require("moment");
 //const date = moment("DD-MM-YYYY");
 
+// Upload image
+const multer = require("multer");
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "./public/uploads");
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.fieldname + "-" + Date.now());
+  },
+});
+
+const upload = multer({ storage: storage });
+
 // Express
 const port = 8080;
 const app = express();
@@ -60,6 +74,12 @@ const recipeSchema = {
     type: Date,
     required: true,
     default: Date.now,
+  },
+  cover: {
+    name: String,
+    originalname: String,
+    path: String,
+    createAt: Date,
   },
 };
 
@@ -143,34 +163,17 @@ app.route("/ice_cream").get((req, res) => {
 // ADMIN
 
 // List.hbs
-app
-  .route("/list")
-  .get((req, res) => {
-    Recipe.find(function (err, recipe) {
-      if (!err) {
-        res.render("list", {
-          recipe: recipe,
-        });
-      } else {
-        res.send(err);
-      }
-    });
-  })
-  .post((req, res) => {
-    const newRecipe = new Recipe({
-      title: req.body.title,
-      ingredients: req.body.ingredients,
-      content: req.body.content,
-      date: req.body.date,
-    });
-    newRecipe.save(function (err) {
-      if (!err) {
-        res.send("Nouvelle recette ajoutée avec succès !");
-      } else {
-        res.send(err);
-      }
-    });
+app.route("/list").get((req, res) => {
+  Recipe.find(function (err, recipe) {
+    if (!err) {
+      res.render("list", {
+        recipe: recipe,
+      });
+    } else {
+      res.send(err);
+    }
   });
+});
 
 // Post.hbs
 app
@@ -178,12 +181,25 @@ app
   .get((req, res) => {
     res.render("post");
   })
-  .post((req, res) => {
+  .post(upload.single("cover"), (req, res) => {
+    const file = req.file;
+
     const newRecipe = new Recipe({
       title: req.body.title,
       ingredients: req.body.ingredients,
       content: req.body.content,
+      category: req.body.category,
     });
+
+    if (file) {
+      newRecipe.cover = {
+        name: file.filename,
+        originalname: file.originalname,
+        path: file.path.replace("public", ""),
+        createAt: Date.now(),
+      };
+    }
+
     newRecipe.save(function (err) {
       if (!err) {
         res.send("Nouvelle recette ajoutée avec succès !");
@@ -207,20 +223,20 @@ app.route("/put").get((req, res) => {
 });
 
 // Delete.hbs
-app
-  .route("/delete")
-  .get((req, res) => {
-    res.render("delete");
-  })
-  .delete(function (req, res) {
-    Recipe.deleteMany(function (err) {
-      if (!err) {
-        res.send("Toutes les recettes ont été effacées !");
-      } else {
-        res.send(err);
-      }
-    });
-  });
+// app
+//   .route("/delete")
+//   .get((req, res) => {
+//     res.render("delete");
+//   })
+//   .delete(function (req, res) {
+//     Recipe.deleteMany(function (err) {
+//       if (!err) {
+//         res.send("Toutes les recettes ont été effacées !");
+//       } else {
+//         res.send(err);
+//       }
+//     });
+//   });
 
 // ROUTE edition
 
