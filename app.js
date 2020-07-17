@@ -206,7 +206,7 @@ app.route("/put").get((req, res) => {
   });
 });
 
-// Post.hbs
+// Delete.hbs
 app.route("/delete").get((req, res) => {
   res.render("delete");
 });
@@ -229,7 +229,29 @@ app
       }
     });
   })
-  .put();
+  .put(function (req, res) {
+    Recipe.update(
+      //condition
+      { _id: req.params.id },
+      //update
+      {
+        title: req.body.title,
+        ingredients: req.body.ingredients,
+        content: req.body.content,
+        category: req.body.category,
+      },
+      //option
+      { multi: true },
+      //exec
+      function (err) {
+        if (!err) {
+          res.send("Recette modifiée avec succès !");
+        } else {
+          res.send(err);
+        }
+      }
+    );
+  });
 
 // SERVER
 
