@@ -1,6 +1,6 @@
 <div class="container">
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-6">
             <h1>Enregistrer une nouvelle catégorie</h1>
             <div class="card">
                 <div class="card-body">
@@ -11,6 +11,20 @@
                         </div>
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <h1>Liste des catégories</h1>
+            <div class="card">
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        {{#each category}}
+                        <li class="list-group-item">
+                            {{this.title}}
+                        </li>
+                        {{/each}}
+                    </ul>
                 </div>
             </div>
         </div>

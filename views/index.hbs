@@ -10,22 +10,20 @@
     </div> --}}
 
     <div class="row">
-        <div class="col-md-12">
-            {{#each recipe}}
-            <div class="card">
-                <div class="card-body">
+        {{#each recipe}}
+        <div class="col-md-6">
+            <div class="card" style="margin-bottom: 20px; border: 2px solid rgb(80, 80, 121); border-radius: 15px;">
+                <div class="card-body" style="background-image: url({{this.cover.urlSharp}});">
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item">{{this.title}}</li>
-                        <img src="{{this.cover.urlSharp}}" alt="" style="max-width: 200px;">
-                        <li class="list-group-item">{{this.ingredients}}</li>
-                        <li class="list-group-item">{{this.content}}</li>
-                        <li class="list-group-item">{{this.category}}</li>
-                        <li class="list-group-item">{{this.created_at}}</li>
+                        <li class="list-group-item title">{{this.title}}</li>
+                        <li class="list-group-item ingredients">{{this.ingredients}}</li>
+                        <li class="list-group-item content">{{this.content}}</li>
+                        <li class="list-group-item category">{{this.category.title}}</li>
+                        <li class="list-group-item created_at">{{this.created_at}}</li>
                     </ul>
                 </div>
             </div>
-            {{/each}}
         </div>
+        {{/each}}
     </div>
-
 </div>

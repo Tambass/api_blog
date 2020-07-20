@@ -89,7 +89,10 @@ const recipeSchema = new mongoose.Schema({
   title: String,
   ingredients: String,
   content: String,
-  category: String,
+  category: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "category",
+  },
   date: Date,
   created_at: {
     type: Date,
@@ -118,7 +121,15 @@ const Category = mongoose.model("category", categoryShema);
 app
   .route("/category")
   .get((req, res) => {
-    res.render("category");
+    Category.find((err, category) => {
+      if (!err) {
+        res.render("category", {
+          category: category,
+        });
+      } else {
+        res.send(err);
+      }
+    });
   })
   .post((req, res) => {
     const newCategory = new Category({
@@ -135,15 +146,17 @@ app
 
 // Index.hbs
 app.route("/").get((req, res) => {
-  Recipe.find(function (err, recipe) {
-    if (!err) {
-      res.render("index", {
-        recipe: recipe,
-      });
-    } else {
-      res.send(err);
-    }
-  });
+  Recipe.find()
+    .populate("category")
+    .exec(function (err, recipe) {
+      if (!err) {
+        res.render("index", {
+          recipe: recipe,
+        });
+      } else {
+        res.send(err);
+      }
+    });
 });
 
 // STARTERS
@@ -210,22 +223,37 @@ app.route("/ice_cream").get((req, res) => {
 
 // List.hbs
 app.route("/list").get((req, res) => {
-  Recipe.find(function (err, recipe) {
-    if (!err) {
-      res.render("list", {
-        recipe: recipe,
-      });
-    } else {
-      res.send(err);
-    }
-  });
+  Recipe.find()
+    .populate("category")
+    .exec(function (err, recipe) {
+      if (!err) {
+        res.render("list", {
+          recipe: recipe,
+        });
+      } else {
+        res.send(err);
+      }
+    });
 });
 
 // Post.hbs
 app
   .route("/post")
   .get((req, res) => {
-    res.render("post");
+    Recipe.find()
+      .populate("category")
+      .exec(function (err, recipe) {
+        if (!err) {
+          Category.find(function (err, category) {
+            res.render("post", {
+              recipe: recipe,
+              category: category,
+            });
+          });
+        } else {
+          res.send(err);
+        }
+      });
   })
   .post(upload.single("cover"), (req, res) => {
     const file = req.file;
@@ -303,18 +331,23 @@ app
 app
   .route("/:id")
   .get(function (req, res) {
-    Recipe.findOne({ _id: req.params.id }, function (err, recipe) {
-      if (!err) {
-        res.render("put", {
-          _id: recipe.id,
-          title: recipe.title,
-          ingredients: recipe.ingredients,
-          content: recipe.content,
-        });
-      } else {
-        res.send(err);
-      }
-    });
+    Recipe.findOne()
+      .populate("category")
+      .exec({ _id: req.params.id }, function (err, recipe) {
+        if (!err) {
+          Category.find(function (err, category) {
+            res.render("put", {
+              _id: recipe.id,
+              title: recipe.title,
+              ingredients: recipe.ingredients,
+              content: recipe.content,
+              category: category,
+            });
+          });
+        } else {
+          res.send(err);
+        }
+      });
   })
   .put(function (req, res) {
     Recipe.update(
