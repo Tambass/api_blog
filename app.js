@@ -144,21 +144,6 @@ app
     });
   });
 
-// Index.hbs
-app.route("/").get((req, res) => {
-  Recipe.find()
-    .populate("category")
-    .exec(function (err, recipe) {
-      if (!err) {
-        res.render("index", {
-          recipe: recipe,
-        });
-      } else {
-        res.send(err);
-      }
-    });
-});
-
 // STARTERS
 app.route("/starters").get((req, res) => {
   res.render("starters");
@@ -298,17 +283,18 @@ app
   });
 
 // Put.hbs
-app.route("/put").get((req, res) => {
-  Recipe.find(function (err, recipe) {
-    if (!err) {
-      res.render("put", {
-        recipe: recipe,
-      });
-    } else {
-      res.send(err);
-    }
-  });
-});
+// app.route("/put")
+//   .get((req, res) => {
+//   Recipe.find(function (err, recipe) {
+//     if (!err) {
+//       res.render("put", {
+//         recipe: recipe,
+//       });
+//     } else {
+//       res.send(err);
+//     }
+//   });
+// });
 
 // Delete.hbs
 app
@@ -331,8 +317,10 @@ app
 app
   .route("/:id")
   .get(function (req, res) {
-    Recipe.findOne()
+    Recipe.findById({ _id: req.params.id })
+
       .populate("category")
+      // .exec({ _id: req.params.id }, function (err, recipe) {
       .exec({ _id: req.params.id }, function (err, recipe) {
         if (!err) {
           Category.find(function (err, category) {
@@ -349,8 +337,31 @@ app
         }
       });
   })
-  .put(function (req, res) {
-    Recipe.update(
+  .put(upload.single("cover"), (req, res) => {
+    const file = req.file;
+
+    const newCover = new Recipe({
+      title: req.body.title,
+      ingredients: req.body.ingredients,
+      content: req.body.content,
+      category: req.body.category,
+      cover: req.body.cover,
+    });
+
+    if (file) {
+      newCover.cover = {
+        name: file.filename,
+        originalname: file.originalname,
+        path: file.path.replace("public", ""),
+        urlSharp:
+          "/uploads/web/" +
+          file.originalname.split(".").slice(0, -1).join(".") +
+          ".webp",
+        createAt: Date.now(),
+      };
+    }
+
+    Recipe.updateOne(
       //condition
       { _id: req.params.id },
       //update
@@ -359,6 +370,7 @@ app
         ingredients: req.body.ingredients,
         content: req.body.content,
         category: req.body.category,
+        cover: newCover.cover,
       },
       //option
       { multi: true },
@@ -382,6 +394,20 @@ app
     });
   });
 
+// Index.hbs
+app.route("/").get((req, res) => {
+  Recipe.find()
+    .populate("category")
+    .exec(function (err, recipe) {
+      if (!err) {
+        res.render("index", {
+          recipe: recipe,
+        });
+      } else {
+        res.send(err);
+      }
+    });
+});
 // SERVER
 
 app.listen(port, function () {
