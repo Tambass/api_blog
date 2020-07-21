@@ -117,6 +117,19 @@ const Category = mongoose.model("category", categoryShema);
 
 // ROUTES
 
+// Moteur de recherche
+app.route("/api").get((req, res) => {
+  Recipe.find().exec((err, recipe) => {
+    if (!err) {
+      res.json({
+        recipe: recipe,
+      });
+    } else {
+      res.send(err);
+    }
+  });
+});
+
 // Category.hbs
 app
   .route("/category")
